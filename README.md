@@ -11,7 +11,7 @@
 * Put, Delete, Post, Get .
 * Dependency Injection.
 * EF Core e SQL Server.
-* * Task e Action Results.
+* Task e Action Results.
 * Gerenciando Scripts.
 * Documentando a API.
 
