@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services;
@@ -14,22 +15,46 @@ namespace SHOP.Controllers
     [Route("v1/users")]
     public class UserController : Controller
     {
+        /// <summary>
+        /// Action para retorno com uma lista de usuários cadastrados no sistema
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("")]
         [Authorize(Roles = "manager")]
+        //O atributo ProducesResponseType informa ao swagger quais as possíveis respostas que o controller vai enviar
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<User>>> Get([FromServices] DataContext context)
         {
             var users = await context
                 .Users
                 .AsNoTracking()
                 .ToListAsync();
-            return users;
+
+            return Ok(users);
         }
 
+        /// <summary>
+        /// Action para cadastro de um novo usuário
+        /// </summary>
+        /// <remarks>
+        /// Caso queira deixar algo visível ao clicar na action, pode utilizar esta propriedade remarks e adicionar o conteúdo abaixo. Ex:
+        ///     
+        ///     POST /v1/users
+        ///     {
+        ///         "username": "string", -- Aqui você vai colocar o nome de usuário
+        ///         "password": "string", -- Aqui você vai colocar a senha do usuário
+        ///         "role": "string" -- Aqui você vai colocar o cargo do usuário
+        ///     }
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("")]
         [AllowAnonymous]
         // [Authorize(Roles = "manager")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<User>> Post(
            [FromServices] DataContext context,
            [FromBody] User model)
@@ -48,7 +73,7 @@ namespace SHOP.Controllers
 
                 // Esconde a senha
                 model.Password = "";
-                return model;
+                return Created($"v1/users/{model.Id}", model);
             }
             catch (Exception)
             {
