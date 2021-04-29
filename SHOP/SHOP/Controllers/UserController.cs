@@ -16,45 +16,39 @@ namespace SHOP.Controllers
     public class UserController : Controller
     {
         /// <summary>
-        /// Action para retorno com uma lista de usuários cadastrados no sistema
+        /// Action para retorno com uma lista de usuários cadastrados no sistema.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="context">Contexto do DbContext</param>
+        /// <response code="200">A lista de usuários foi obtida com sucesso.</response>
+        /// <response code="500">Ocorreu um erro ao obter a lista de usuários.</response>
         [HttpGet]
         [Route("")]
         [Authorize(Roles = "manager")]
-        //O atributo ProducesResponseType informa ao swagger quais as possíveis respostas que o controller vai enviar
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<User>>> Get([FromServices] DataContext context)
         {
             var users = await context
                 .Users
                 .AsNoTracking()
                 .ToListAsync();
-
-            return Ok(users);
+            return users;
         }
 
         /// <summary>
-        /// Action para cadastro de um novo usuário
+        /// Action para cadastro de um novo usuário.
         /// </summary>
-        /// <remarks>
-        /// Caso queira deixar algo visível ao clicar na action, pode utilizar esta propriedade remarks e adicionar o conteúdo abaixo. Ex:
-        ///     
-        ///     POST /v1/users
-        ///     {
-        ///         "username": "string", -- Aqui você vai colocar o nome de usuário
-        ///         "password": "string", -- Aqui você vai colocar a senha do usuário
-        ///         "role": "string" -- Aqui você vai colocar o cargo do usuário
-        ///     }
-        /// </remarks>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="context">Contexto do DbContext</param>
+        /// <param name="model">Abstração da minha entidade Users.</param>
+        /// <response code="200">O usuário foi cadastrado com sucesso.</response>
+        /// <response code="400">O modelo do usuário enviado é inválido.</response>
+        /// <response code="500">Ocorreu um erro ao cadastrar o usuário.</response>
         [HttpPost]
         [Route("")]
         [AllowAnonymous]
-        // [Authorize(Roles = "manager")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<User>> Post(
            [FromServices] DataContext context,
            [FromBody] User model)
@@ -73,6 +67,7 @@ namespace SHOP.Controllers
 
                 // Esconde a senha
                 model.Password = "";
+                //return model;
                 return Created($"v1/users/{model.Id}", model);
             }
             catch (Exception)
@@ -82,9 +77,23 @@ namespace SHOP.Controllers
             }
         }
 
+        /// <summary>
+        /// Action para atualizar um usuário.        
+        /// </summary>
+        /// <param name="context">Contexto do DbContext</param>
+        /// <param name="id">ID do usuário.</param>
+        /// <param name="model">Abstração da minha entidade Users.</param>
+        /// <response code="200">O usuário foi atualizado com sucesso.</response>
+        /// <response code="400">O modelo do usuário enviado é inválido.</response>
+        /// <response code="404">Usuário não encontrado.</response>
+        /// <response code="500">Ocorreu um erro ao atualizar o usuário.</response>
         [HttpPut]
         [Route("{id:int}")]
         [Authorize(Roles = "manager")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<User>> Put(
             [FromServices] DataContext context,
             int id,
@@ -111,9 +120,20 @@ namespace SHOP.Controllers
             }
         }
 
+        /// <summary>
+        /// Action para autenticação do sistema.
+        /// </summary>
+        /// <param name="context">Contexto do DbContext</param>
+        /// <param name="model">Abstração da minha entidade Users.</param>
+        /// <response code="400">O modelo do usuário enviado é inválido.</response>
+        /// <response code="404">Usuário não encontrado.</response>
+        /// <response code="500">Ocorreu um erro ao cadastrar o usuário.</response>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<dynamic>> Authenticate(
                     [FromServices] DataContext context,
                     [FromBody] User model)
@@ -135,15 +155,5 @@ namespace SHOP.Controllers
                 token = token
             };
         }
-
-        //[HttpGet]
-        //[Route("anonimo")]
-        //[AllowAnonymous]
-        //public string Anonimo() => "Anonimo";
-
-        //[HttpGet]
-        //[Route("autenticado")]
-        //[Authorize]
-        //public string Autenticado() => "autenticado";
     }
 }

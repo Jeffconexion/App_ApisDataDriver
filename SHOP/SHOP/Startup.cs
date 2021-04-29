@@ -68,16 +68,10 @@ namespace SHOP
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop Api", Version = "v1" });
 
-                /*
-                 * Trecho de código pra colocar comentários do sumário na documentação gerada no swagger
-                 * Depende do arquivo colocado pra gerar no csproj com a tag <GenerateDocumentationFile>true</GenerateDocumentationFile>
-                 * Deixei exemplo no UserController
-                 * Link da documentação:
-                 * https://docs.microsoft.com/pt-br/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-5.0&tabs=visual-studio
-                 */
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+
             });
         }
 
