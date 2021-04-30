@@ -12,8 +12,8 @@
 * Dependency Injection.
 * EF Core e SQL Server.
 * Task e Action Results.
-* Gerenciando Scripts.
 * Documentando a API.
+* Utilizando o Swagger.
 
 ### Package ###
 
