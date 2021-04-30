@@ -1,4 +1,4 @@
-# Apis Data Driver
+# Shop Api
 
 ### Sinopse ###
 <p> 
@@ -15,14 +15,24 @@
 * Gerenciando Scripts.
 * Documentando a API.
 
+### Package ###
+
+* Install-Package Microsoft.AspNetCore.Authentication
+* Install-Package Microsoft.AspNetCore.Authentication.JwtBearer
+* Install-Package Microsoft.EntityFrameworkCore.Design
+* Install-Package Microsoft.EntityFrameworkCore.InMemory
+* Install-Package Microsoft.EntityFrameworkCore.SqlServer
+* Install-Package Microsoft.EntityFrameworkCore.Tools
+* Install-Package Swashbuckle.AspNetCore
 
 ### Projeto ###
 
 <p> 
 Mediante o conhecimento adquirido, foi possível reciclar o conhecimento do .Net para .Net core.
-Aprendi a trabalhar com tarefas, a enviar requisição e response pelo Postman. Alem de realizar o crud,
-também aprendi a documentar a API.
+Trabalhando com os verbos do protocolo HTTP. Além de realizar o CRUD de usuário, produto e categoria,
+foi empregado boas práticas de documentação utilizando Swagger.
 </p> 
+
 <p align="center">
   <img src="https://github.com/Jeffconexion/App_ApisDataDriver/blob/main/webApi.gif" />
 </p>
