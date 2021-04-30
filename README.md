@@ -23,7 +23,6 @@ Mediante o conhecimento adquirido, foi possível reciclar o conhecimento do .Net
 Aprendi a trabalhar com tarefas, a enviar requisição e response pelo Postman. Alem de realizar o crud,
 também aprendi a documentar a API.
 </p> 
-
 <p align="center">
   <img src="https://github.com/Jeffconexion/App_ApisDataDriver/blob/main/webApi.gif" />
 </p>
