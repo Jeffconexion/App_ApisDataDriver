@@ -2,7 +2,7 @@
 
 ### Sinopse ###
 <p> 
-  Criando Apis com .Net core 3 e EF core 3. 
+  Criando uma Api para cadastramento de produto, categoria, e usuário. Por intermédio do .Net core 3 e EF core 3. 
 </p>
 
 ### Tópicos ###
